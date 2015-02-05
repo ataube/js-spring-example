@@ -1,0 +1,35 @@
+buildscript {
+    ext {
+        springBootVersion = '1.2.1.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'eclipse-wtp'
+    apply plugin: 'idea'
+
+    group = 'de.codecentric'
+    version = '1.0.0-SNAPSHOT'
+
+    sourceCompatibility = 1.7
+    targetCompatibility = 1.7
+
+    //gradle allDeps --configuration compile
+    task allDeps(type: DependencyReportTask) {}
+
+    repositories {
+        mavenCentral()
+    }
+
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.12'
+}

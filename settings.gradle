@@ -1,0 +1,6 @@
+rootProject.name = 'spa-spring-example'
+include ':cc-app'
+include ':cc-server'
+
+project(':cc-app').projectDir = "$rootDir/modules/cc-app" as File
+project(':cc-server').projectDir = "$rootDir/modules/cc-server" as File

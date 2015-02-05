@@ -1,0 +1,17 @@
+description = 'Demo Server'
+
+apply plugin: 'war'
+apply plugin: 'spring-boot'
+
+
+war {
+    baseName = 'server'
+    version = '1.0.0-SNAPSHOT'
+}
+
+dependencies {
+    compile project(":cc-app")
+    compile("org.springframework.boot:spring-boot-starter-web")
+    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+}
