@@ -1,1 +1,38 @@
 description = 'Single Page App Module'
+
+def buildJsDir = 'buildjs'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'be.filipblondeel.gradle:gradle-gulp-plugin:0.1'
+    }
+}
+
+apply plugin: 'gulp'
+
+node {
+    // Enabled the automatic download. False is the default (for now).
+    download = false
+}
+
+gulp_build {
+    outputs.dir file(buildJsDir)
+
+    // processes your package.json before running gulp build
+    gulp_build.dependsOn 'npmInstall'
+
+    doLast {
+        //TODO copy js dist to resources
+    }
+}
+
+task cleanDist(type: Delete) {
+    delete buildJsDir
+}
+
+clean.dependsOn(cleanDist)
+
+processResources.dependsOn gulp_build
