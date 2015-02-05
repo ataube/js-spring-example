@@ -1,5 +1,12 @@
 var gulp = require('gulp');
-var plugins = require("gulp-load-plugins")({lazy:false});
+var plugins = require("gulp-load-plugins")({
+    pattern: ['gulp-*', 'del'],
+    lazy:false
+});
+
+var paths = {
+    dest: 'buildjs'
+}
 
 gulp.task('scripts', function(){
     //combine all js files of the app
@@ -7,7 +14,7 @@ gulp.task('scripts', function(){
         .pipe(plugins.jshint())
         .pipe(plugins.jshint.reporter('default'))
         .pipe(plugins.concat('app.js'))
-        .pipe(gulp.dest('./build'));
+        .pipe(gulp.dest(paths.dest));
 });
 
 gulp.task('templates',function(){
@@ -15,13 +22,13 @@ gulp.task('templates',function(){
     gulp.src(['!./app/index.html',
         './app/**/*.html'])
         .pipe(plugins.angularTemplatecache('templates.js',{standalone:true}))
-        .pipe(gulp.dest('./build'));
+        .pipe(gulp.dest(paths.dest));
 });
 
 gulp.task('css', function(){
     gulp.src('./app/**/*.css')
         .pipe(plugins.concat('app.css'))
-        .pipe(gulp.dest('./build'));
+        .pipe(gulp.dest(paths.dest));
 });
 
 gulp.task('vendorJS', function(){
@@ -29,7 +36,7 @@ gulp.task('vendorJS', function(){
     gulp.src(['!./bower_components/**/*.min.js',
         './bower_components/**/*.js'])
         .pipe(plugins.concat('lib.js'))
-        .pipe(gulp.dest('./build'));
+        .pipe(gulp.dest(paths.dest));
 });
 
 gulp.task('vendorCSS', function(){
@@ -37,12 +44,12 @@ gulp.task('vendorCSS', function(){
     gulp.src(['!./bower_components/**/*.min.css',
         './bower_components/**/*.css'])
         .pipe(plugins.concat('lib.css'))
-        .pipe(gulp.dest('./build'));
+        .pipe(gulp.dest(paths.dest));
 });
 
 gulp.task('copy-index', function() {
     gulp.src('./app/index.html')    
-        .pipe(gulp.dest('./build'));
+        .pipe(gulp.dest(paths.dest));
 });
 
 gulp.task('watch',function(){
@@ -67,4 +74,12 @@ gulp.task('connect', plugins.connect.server({
     livereload: true
 }));
 
-gulp.task('default',['connect','scripts','templates','css','copy-index','vendorJS','vendorCSS','watch']);
+gulp.task('clean', function (done) {
+    plugins.del([paths.dest], done);
+});
+
+gulp.task('build',['scripts','templates','css','copy-index','vendorJS','vendorCSS']);
+
+gulp.task('default', ['clean'], function () {
+    gulp.start('build');
+});
