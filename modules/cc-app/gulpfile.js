@@ -33,8 +33,9 @@ gulp.task('css', function(){
 
 gulp.task('vendorJS', function(){
     //concatenate vendor JS files
-    gulp.src(['!./bower_components/**/*.min.js',
-        './bower_components/**/*.js'])
+		//NOTE: Using a glob pattern might cause a invalid concatenation order
+		//      of the vendor dependencies => use https://github.com/ck86/main-bower-files to solve this issue
+    gulp.src(['./bower_components/angular/angular.js', './bower_components/angular-route/angular-route.js'])
         .pipe(plugins.concat('lib.js'))
         .pipe(gulp.dest(paths.dest));
 });
