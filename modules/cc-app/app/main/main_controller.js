@@ -10,12 +10,11 @@
           controller: 'MainCtrl'
         });
     })
-    .controller('MainCtrl', function ($scope) {
-      $scope.awesomeThings = [
-        'HTML5 Boilerplate',
-        'AngularJS',
-        'Karma'
-      ];
+    .controller('MainCtrl', function ($scope, $http) {
+		  $http.get('/api/things').then(function(resp) {
+			  $scope.awesomeThings = resp.data;
+		  });
+
     });
 
 })();
