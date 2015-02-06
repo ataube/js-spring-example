@@ -5,7 +5,7 @@ var plugins = require("gulp-load-plugins")({
 });
 
 var paths = {
-    dest: 'buildjs'
+    dest: 'buildjs/static/public'
 }
 
 gulp.task('scripts', function(){

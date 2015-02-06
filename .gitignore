@@ -1,4 +1,6 @@
 .idea
+.gradle
+.DS_Store
 *.class
 *.jar
 *.war
@@ -6,6 +8,7 @@
 *.ipr
 *.iws
 build
+buildjs
 node_modules
 bower_components
 

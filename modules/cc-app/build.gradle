@@ -18,21 +18,23 @@ node {
     download = false
 }
 
+sourceSets {
+    main {
+        output.dir(buildJsDir)
+    }
+}
+
 gulp_build {
     outputs.dir file(buildJsDir)
 
     // processes your package.json before running gulp build
-    gulp_build.dependsOn 'npmInstall'
-
-    doLast {
-        //TODO copy js dist to resources
-    }
+    dependsOn 'npmInstall'
 }
 
 task cleanDist(type: Delete) {
     delete buildJsDir
 }
 
-clean.dependsOn(cleanDist)
+clean.dependsOn cleanDist
 
 processResources.dependsOn gulp_build
