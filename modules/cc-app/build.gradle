@@ -15,7 +15,7 @@ apply plugin: 'gulp'
 
 node {
     // Enabled the automatic download. False is the default (for now).
-    download = false
+    download = true
 }
 
 sourceSets {

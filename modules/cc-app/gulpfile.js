@@ -19,9 +19,8 @@ gulp.task('scripts', function(){
 
 gulp.task('templates',function(){
     //combine all template files of the app into a js file
-    gulp.src(['!./app/index.html',
-        './app/**/*.html'])
-        .pipe(plugins.angularTemplatecache('templates.js',{standalone:true}))
+    gulp.src(['./app/**/*.html'])
+        .pipe(plugins.angularTemplatecache('templates.js',{standalone:false, module: 'cc-app'}))
         .pipe(gulp.dest(paths.dest));
 });
 
@@ -48,11 +47,6 @@ gulp.task('vendorCSS', function(){
         .pipe(gulp.dest(paths.dest));
 });
 
-gulp.task('copy-index', function() {
-    gulp.src('./app/index.html')    
-        .pipe(gulp.dest(paths.dest));
-});
-
 gulp.task('watch',function(){
     gulp.watch([
         'build/**/*.html',        
@@ -63,9 +57,8 @@ gulp.task('watch',function(){
             .pipe(plugins.connect.reload());
     });
     gulp.watch(['./app/**/*.js','!./app/**/*test.js'],['scripts']);
-    gulp.watch(['!./app/index.html','./app/**/*.html'],['templates']);
+    gulp.watch(['./app/**/*.html'],['templates']);
     gulp.watch('./app/**/*.css',['css']);
-    gulp.watch('./app/index.html',['copy-index']);
 
 });
 
@@ -79,7 +72,7 @@ gulp.task('clean', function (done) {
     plugins.del([paths.dest], done);
 });
 
-gulp.task('build',['scripts','templates','css','copy-index','vendorJS','vendorCSS']);
+gulp.task('build',['scripts','templates','css','vendorJS','vendorCSS']);
 
 gulp.task('default', ['clean'], function () {
     gulp.start('build');
